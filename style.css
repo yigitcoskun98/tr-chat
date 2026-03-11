@@ -1,144 +1,66 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    background-color: #36393f; /* Discord Arka Planı */
-    color: #dcddde;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.app-container {
+/* GİRİŞ EKRANI TASARIMI */
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
-    height: 100vh;
-}
-
-/* Sol Menü */
-.sidebar {
-    width: 250px;
-    background-color: #2f3136;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar h2 {
-    color: #fff;
-    padding: 20px;
-    border-bottom: 1px solid #202225;
-    font-size: 1.2rem;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-.channel-list {
-    list-style: none;
-    margin-top: 10px;
-}
-
-.channel-list li {
-    padding: 10px 20px;
-    cursor: pointer;
-    color: #8e9297;
-    font-weight: 600;
-    transition: 0.2s;
-}
-
-.channel-list li:hover, .channel-list li.active {
-    background-color: #393c43;
-    color: #fff;
-}
-
-/* Sağ Sohbet Alanı */
-.chat-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #36393f;
-}
-
-.chat-header {
-    height: 64px;
-    border-bottom: 1px solid #202225;
-    display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 0 20px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    z-index: 1000;
 }
 
-.messages {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.message-box {
-    display: flex;
-    flex-direction: column;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.message-box .username {
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 4px;
-    font-size: 0.95rem;
-}
-
-.message-box .text {
-    color: #dcddde;
-    font-size: 0.95rem;
-    line-height: 1.4;
-    word-wrap: break-word;
-}
-
-/* Mesaj Gönderme Yeri */
-.input-area {
-    padding: 20px;
+.login-box {
     background-color: #36393f;
-    display: flex;
-    gap: 15px;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    width: 400px;
 }
 
-#messageInput {
-    flex: 1;
-    background-color: #40444b;
-    border: none;
+.login-box h2 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.login-box p {
+    color: #b9bbbe;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+}
+
+.login-box input {
+    width: 100%;
+    background-color: #202225;
+    border: 1px solid #202225;
     padding: 15px;
-    border-radius: 8px;
+    border-radius: 5px;
     color: #dcddde;
-    outline: none;
     font-size: 1rem;
+    outline: none;
+    margin-bottom: 20px;
 }
 
-#sendBtn {
-    background-color: #5865F2; /* Discord Mavisi */
+.login-box input:focus {
+    border-color: #5865F2;
+}
+
+.login-box button {
+    width: 100%;
+    background-color: #5865F2;
     color: white;
     border: none;
-    padding: 0 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+    padding: 15px;
+    border-radius: 5px;
     font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
     transition: 0.2s;
 }
 
-#sendBtn:hover {
+.login-box button:hover {
     background-color: #4752C4;
 }
-
-/* Kaydırma Çubuğu Güzelleştirme */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #2f3136; }
-::-webkit-scrollbar-thumb { background: #202225; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #18191c; }

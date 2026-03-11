@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// BURAYA KENDİ FİREBASE AYARLARINI YAPIŞTIR (Aşağıdaki örnek kısımdır, seninkilerle değiştir)
+// BURAYA KENDİ FİREBASE KODLARINI YAPIŞTIR
 const firebaseConfig = {
   apiKey: "AIzaSyAj8mIbtxkXN-B9qh598Tg7SlzNe--JnrU",
   authDomain: "tr-chat-6f1db.firebaseapp.com",
@@ -12,63 +12,86 @@ const firebaseConfig = {
   appId: "1:551126375000:web:ddebca706664ad8ba0882d"
 };
 
-// Firebase'i Başlat
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// HTML Elemanlarını Seçme
+// HTML Elemanları
+const loginOverlay = document.getElementById('loginOverlay');
+const appContainer = document.getElementById('appContainer');
+const usernameInput = document.getElementById('usernameInput');
+const joinBtn = document.getElementById('joinBtn');
+
 const messageInput = document.getElementById('messageInput');
 const sendBtn = document.getElementById('sendBtn');
 const messagesContainer = document.getElementById('messages');
 
-// Kullanıcıya şimdilik rastgele bir isim veriyoruz (Anonim_145 gibi)
-const username = "Anonim_" + Math.floor(Math.random() * 1000);
+let currentUser = ""; // Kullanıcının adını tutacağımız değişken
 
-// Mesaj Gönderme İşlemi
+// --- GİRİŞ YAPMA İŞLEMİ ---
+function joinChat() {
+    const enteredName = usernameInput.value.trim();
+    if (enteredName === "") {
+        alert("Lütfen bir kullanıcı adı girin!");
+        return;
+    }
+    
+    currentUser = enteredName; // İsmi kaydet
+    loginOverlay.style.display = "none"; // Giriş ekranını gizle
+    appContainer.style.display = "flex"; // Ana sohbeti göster
+}
+
+joinBtn.addEventListener('click', joinChat);
+usernameInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') joinChat();
+});
+
+// --- MESAJ GÖNDERME İŞLEMİ ---
 async function sendMessage() {
     const text = messageInput.value.trim();
-    if (text === "") return; // Boş mesaj gitmesin
+    if (text === "") return; 
 
-    messageInput.value = ""; // Kutuyu temizle
+    messageInput.value = ""; 
 
     try {
         await addDoc(collection(db, "messages"), {
-            username: username,
+            username: currentUser, // Artık adamın kendi girdiği isim gidiyor
             text: text,
             timestamp: serverTimestamp()
         });
     } catch (e) {
-        console.error("Mesaj gönderilemedi: ", e);
+        console.error("Hata: ", e);
     }
 }
 
-// Butona veya Enter'a basınca gönder
 sendBtn.addEventListener('click', sendMessage);
 messageInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendMessage();
 });
 
-// Veritabanını Canlı Olarak Dinleme (Sayfa yenilemeye gerek kalmaz)
+// --- MESAJLARI CANLI ÇEKME ---
 const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
 
 onSnapshot(q, (snapshot) => {
-    messagesContainer.innerHTML = ""; // Ekranı temizle
+    messagesContainer.innerHTML = ""; 
     
     snapshot.forEach((doc) => {
         const data = doc.data();
         
-        // GÜVENLİK (XSS KORUMASI): innerHTML KULLANMIYORUZ!
-        // Sadece textContent kullanarak kötü amaçlı kodların çalışmasını engelliyoruz.
         const msgDiv = document.createElement('div');
         msgDiv.classList.add('message-box');
         
         const userDiv = document.createElement('div');
         userDiv.classList.add('username');
+        
+        // Eğer mesajı yazan bizsek ismimiz farklı renkte görünsün
+        if(data.username === currentUser) {
+            userDiv.style.color = "#5865F2"; // Kendi adımız mavi olsun
+        }
         userDiv.textContent = data.username; 
         
         const textDiv = document.createElement('div');
         textDiv.classList.add('text');
-        textDiv.textContent = data.text; // Biri <script> yazsa bile sadece düz yazı olarak görünür, site patlamaz.
+        textDiv.textContent = data.text; 
         
         msgDiv.appendChild(userDiv);
         msgDiv.appendChild(textDiv);
@@ -76,6 +99,5 @@ onSnapshot(q, (snapshot) => {
         messagesContainer.appendChild(msgDiv);
     });
 
-    // Yeni mesaj gelince sayfayı en alta kaydır
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 });

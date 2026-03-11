@@ -7,8 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sol Menü (Discord Kanalları Gibi) -->
+
+    <!-- GİRİŞ EKRANI (YENİ EKLENDİ) -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-box">
+            <h2>TR Chat'e Hoş Geldin</h2>
+            <p>Sohbete katılmak için bir kullanıcı adı belirle.</p>
+            <input type="text" id="usernameInput" placeholder="Kullanıcı Adın" autocomplete="off" maxlength="15">
+            <button id="joinBtn">Sohbete Katıl</button>
+        </div>
+    </div>
+
+    <!-- ANA SOHBET UYGULAMASI (ÖNCEKİNİN AYNISI) -->
+    <div class="app-container" id="appContainer" style="display: none;">
         <div class="sidebar">
             <h2>TR Chat</h2>
             <ul class="channel-list">
@@ -17,24 +28,20 @@
             </ul>
         </div>
 
-        <!-- Sağ Sohbet Alanı -->
         <div class="chat-area">
             <div class="chat-header">
                 <h3># genel-sohbet</h3>
             </div>
             
-            <div class="messages" id="messages">
-                <!-- Mesajlar buraya düşecek -->
-            </div>
+            <div class="messages" id="messages"></div>
 
             <div class="input-area">
-                <input type="text" id="messageInput" placeholder="#genel-sohbet kanalına mesaj gönder..." autocomplete="off">
+                <input type="text" id="messageInput" placeholder="Mesaj gönder..." autocomplete="off">
                 <button id="sendBtn">Gönder</button>
             </div>
         </div>
     </div>
 
-    <!-- Javascript Dosyamızı Bağlıyoruz -->
     <script type="module" src="app.js"></script>
 </body>
 </html>

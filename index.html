@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TR Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sol Menü (Discord Kanalları Gibi) -->
+        <div class="sidebar">
+            <h2>TR Chat</h2>
+            <ul class="channel-list">
+                <li class="active"># genel-sohbet</li>
+                <li># kurallar</li>
+            </ul>
+        </div>
 
+        <!-- Sağ Sohbet Alanı -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <h3># genel-sohbet</h3>
+            </div>
+            
+            <div class="messages" id="messages">
+                <!-- Mesajlar buraya düşecek -->
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="messageInput" placeholder="#genel-sohbet kanalına mesaj gönder..." autocomplete="off">
+                <button id="sendBtn">Gönder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript Dosyamızı Bağlıyoruz -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
